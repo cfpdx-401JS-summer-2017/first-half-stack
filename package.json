@@ -1,0 +1,32 @@
+{
+  "name": "first-half-stack",
+  "version": "1.0.0",
+  "description": "Half-stack development first time with database pair programed with Anwar and Pierre",
+  "main": "server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha tests",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thomson42/first-half-stack.git"
+  },
+  "author": "Christopher Thomson, Pierre Shabani, Anwar Montasir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thomson42/first-half-stack/issues"
+  },
+  "homepage": "https://github.com/Thomson42/first-half-stack#readme",
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.2.0",
+    "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "mongodb": "^2.2.30"
+  }
+}
