@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests",
+    "test": "mocha test",
     "start": "node server.js",
     "test:watch": "npm test -- -w"
   },
@@ -25,6 +25,7 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
+    "cowsay": "^1.1.9",
     "mongodb": "^2.2.30"
   }
 }
