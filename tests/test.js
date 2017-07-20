@@ -5,7 +5,7 @@ const {assert} = chai;
 
 const connection = require('../lib/db');
 
-const url = 'mongodb://localhost:27017/dogs';
+const url = 'mongodb://localhost:27017/pets';
 
 const app = require('../lib/app');
 
