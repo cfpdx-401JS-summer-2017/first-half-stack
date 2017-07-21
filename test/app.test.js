@@ -13,7 +13,7 @@ describe('puppies', () => {
     const request = chai.request(app);
 
     it('saves', () => {
-        const puppy = { name: 'cheddar', type: 'red heeler'};
+        const puppy = { name: 'cheddar', type: 'red heeler' };
         return request.post('/puppies')
             .send(puppy)
             .then(res => {
@@ -29,12 +29,12 @@ describe('puppies', () => {
         return request.get('/puppies')
             .then(res => {
                 const allPuppies = res.body;
-                assert.equal(allPuppies[0].name,'cheddar');
+                assert.equal(allPuppies[0].name, 'cheddar');
                 assert.equal(allPuppies[0].type, 'red heeler');
             });
     });
     it('gets a puppy by its id', () => {
-        const puppy = {name: 'clinton', type: 'chihuahua'};
+        const puppy = { name: 'clinton', type: 'chihuahua' };
         let savedPuppy = null;
         return request.post('/puppies')
             .send(puppy)
@@ -56,7 +56,7 @@ describe('puppies', () => {
             });
     });
     it('deletes a puppy with given id', () => {
-        const puppy = {name: 'tater', type: 'tot'};
+        const puppy = { name: 'tater', type: 'tot' };
         let savedPuppy = null;
         return request.post('/puppies')
             .send(puppy)
@@ -66,6 +66,12 @@ describe('puppies', () => {
             })
             .then(res => {
                 assert.deepEqual(res.body, { removed: true });
+            });
+    });
+    it('returns a different response if a bad delete id is given', () => {
+        return request.delete('/puppies/597138b152ce04392740f087')
+            .then(res => {
+                assert.deepEqual(res.body, { removed: false });
             });
     });
 });
