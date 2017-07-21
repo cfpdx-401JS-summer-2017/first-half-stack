@@ -58,5 +58,15 @@ describe('world db', () => {
                 assert.equal(res.body._id, city._id);
             });
     });
+
+    it('gets city by id and returns 404 not found', () => {
+        return request.get('/cities/597287cabf48c57689021abc') //must test 24 char
+            .then(() => {throw new Error('Expected 404 error instead got 200');},
+                err => assert.ok(err.response.notFound)
+            );
+    });
+
+    //TODO: DELETE /<resource>/:id
+    //TODO: PUT /<resource>/:id
     
 });
