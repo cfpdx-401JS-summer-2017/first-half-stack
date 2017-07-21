@@ -9,7 +9,7 @@ const app = require('../lib/app');
 describe('world db', () => {
     before(() => connection.connect(url));
     before(() => connection.db.dropDatabase());
-    //TODO: add beforeEach to clear the collection
+    // beforeEach(() => connection.db.dropCollection('cities'));
 
     const request = chai.request(app);
 
@@ -30,6 +30,9 @@ describe('world db', () => {
     });
 
     it('gets all cities', () => {
+        //QUESTION: not sure how remove before test
+        connection.db.dropCollection('cities');
+
         let cities = [
             { name: 'San Francisco', state: 'CA' },
             { name: 'Seattle', state: 'WA' },
@@ -42,6 +45,17 @@ describe('world db', () => {
             .then(res => {
                 const saved = res.body.sort((a, b) => a._id > b._id ? 1 : -1 );
                 assert.deepEqual(saved, cities);
+            });
+    });
+
+    it('gets city by id', () => {
+        let city = { name: 'Minneapolis', state: 'MN' };
+
+        return save(city)
+            .then(saved => city = saved)
+            .then(() => request.get(`/cities/${city._id}`)) // don't need :
+            .then(res => {
+                assert.equal(res.body._id, city._id);
             });
     });
     
