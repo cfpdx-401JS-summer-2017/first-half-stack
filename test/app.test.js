@@ -74,4 +74,20 @@ describe('puppies', () => {
                 assert.deepEqual(res.body, { removed: false });
             });
     });
+    it('updates a puppy', () => {
+        const puppy = { name: 'jeffri', type: 'huski' };
+        let savedPuppy = null;
+        return request.post('/puppies')
+            .send(puppy)
+            .then(res => savedPuppy = res.body)
+            .then( () => {
+                puppy.name = 'joffrey';
+                return request
+                    .put(`/puppies/${savedPuppy._id}`)
+                    .send( puppy );
+            })
+            .then(res => {
+                assert.deepEqual(res.body, { modified: true });
+            });
+    });
 });
