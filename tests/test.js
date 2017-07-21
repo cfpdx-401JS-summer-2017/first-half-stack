@@ -41,6 +41,14 @@ describe('dogs resource', () => {
                 assert.equal(res.body[0].name, saved.name);
             });
     });
+    it('update dog data by id', () => {
+        const dogStatus = { status: 'asleep' };
+        return request.patch(`/dogs/${saved._id}`)
+            .send(dogStatus)
+            .then(res => {
+                assert.deepEqual(JSON.parse(res.text), { updated: true });
+            });
+    });
     it('deletes dog by id', () => {
         return request.delete(`/dogs/${saved._id}`)
             .then(res => {
@@ -52,5 +60,5 @@ describe('dogs resource', () => {
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), { removed: false });
             });
-    })
+    });
 });
