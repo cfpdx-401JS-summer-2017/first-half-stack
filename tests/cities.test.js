@@ -2,7 +2,6 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const { assert } = chai;
-
 const connection = require('../lib/db');
 const url = 'mongodb://localhost:27017/world-test';
 const app = require('../lib/app');
@@ -25,7 +24,21 @@ describe('world db', () => {
             });
     });
 
-    //it('gets all cities', () => {
-
-    // });
+    it('gets all cities', () => {
+        const cities = [
+            { name: 'Seattle', state: 'WA' },
+            { name: 'San Francisco', state: 'CA' },
+            { name: 'Phoenix', state: 'AZ' }
+        ];
+        
+        return request.post('/cities')
+            .send(cities)
+            .then(request.get('/cities'))
+            .then(res => {
+                const saved = res.body;
+                console.log(saved);
+                assert.equal(saved.length, 4);
+            });
+    });
+    
 });
