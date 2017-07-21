@@ -12,12 +12,16 @@ describe('world db', () => {
 
     const request = chai.request(app);
 
-    it('saves', () => {
-        const city = { name: 'Chicago', state: 'IL'};
+    function save(city) {
         return request.post('/cities')
             .send(city)
-            .then(res => {
-                const saved = res.body;
+            .then(res => res.body);
+    }
+
+    it.skip('saves', () => {
+        const city = { name: 'Chicago', state: 'IL' };
+        return save(city)
+            .then(saved => {
                 assert.ok(saved._id);
                 assert.equal(saved.name, city.name);
                 assert.equal(saved.state, city.state);
@@ -25,19 +29,19 @@ describe('world db', () => {
     });
 
     it('gets all cities', () => {
-        const cities = [
-            { name: 'Seattle', state: 'WA' },
+        let cities = [
             { name: 'San Francisco', state: 'CA' },
+            { name: 'Seattle', state: 'WA' },
             { name: 'Phoenix', state: 'AZ' }
         ];
         
-        return request.post('/cities')
-            .send(cities)
-            .then(request.get('/cities'))
+        return Promise.all(cities.map(save))
+            .then(saved => cities = saved)
+            .then(() => request.get('/cities'))
             .then(res => {
-                const saved = res.body;
-                console.log(saved);
-                assert.equal(saved.length, 4);
+                const saved = res.body.sort((a, b) => a._id > b._id ? 1 : -1 );
+                // cities = cities.sort(function (a, b) { return a.name - b.name; });
+                assert.deepEqual(saved, cities);
             });
     });
     
