@@ -49,4 +49,10 @@ describe('puppies', () => {
                 assert.deepEqual(foundPuppy, savedPuppy);
             });
     });
+    it('returns 404 if no id exists', () => {
+        return request.get('/puppies/597138b152ce04392740f087')
+            .catch(res => {
+                assert.equal(res.status, 404);
+            });
+    });
 });
