@@ -33,6 +33,14 @@ describe('dogs resource', () => {
         return request.get(`/dogs/${saved._id}`)
         .then (res => {
             assert.equal(res.body._id, saved._id);
+        });    
+    });
+    it('pulls the collection of dogs', () => {
+        console.log('hi how are you?')
+        return request.get('/dogs')
+        .then (res => {
+            assert.equal(res.body, saved);
         });
-    })
+    });
+
 });
