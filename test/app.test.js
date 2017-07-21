@@ -1,8 +1,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const assert = chai.assert;
+const {assert} = chai;
+
 const connection = require('../lib/db');
+
 const url = 'mongodb://localhost:27017/puppies-test';
 const app = require('../lib/app');
 
