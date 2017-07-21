@@ -20,8 +20,9 @@ describe('dogs resource', () => {
             .then(res => res.body);
     }
 
-    let dog = {name:'steve',breed:'yellow lab'};
-    let dog2 = {name:'jake',breed:'golden retriever'};
+    let dog = {name:'steve', breed:'yellow lab'};
+    let dog2 = {name:'jake', breed:'golden retriever'};
+    let dog3 = {name:'kasha', breed:'border collie'};
 
     it('saves', () => {
         return saveDog(dog)
@@ -36,11 +37,22 @@ describe('dogs resource', () => {
 
     it('gets all saved objects', () => {
         return saveDog(dog2)
-            .then(saved => dog2 = saved)
+            .then(savedDog => dog2 = savedDog)
             .then(() => request.get('/dogs'))
             .then(res => {
-                const saved = res.body;
-                assert.deepEqual(saved, [dog,dog2]);
+                const dogsList = res.body;
+                assert.equal(dogsList[0].name, 'steve');
+                assert.equal(dogsList[1].name, 'jake');
+            });
+    });
+
+    it('gets a saved object by id', () => {
+        return saveDog(dog3)
+            .then(savedDog => dog3 = savedDog)
+            .then(() => request.get(`/dogs/${dog3._id}`))
+            .then(res => {
+                const gotDog = res.body;
+                assert.deepEqual(gotDog, dog3);
             });
     });
 });
