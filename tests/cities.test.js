@@ -9,6 +9,7 @@ const app = require('../lib/app');
 describe('world db', () => {
     before(() => connection.connect(url));
     before(() => connection.db.dropDatabase());
+    //TODO: add beforeEach to clear the collection
 
     const request = chai.request(app);
 
@@ -18,7 +19,7 @@ describe('world db', () => {
             .then(res => res.body);
     }
 
-    it.skip('saves', () => {
+    it('saves', () => {
         const city = { name: 'Chicago', state: 'IL' };
         return save(city)
             .then(saved => {
@@ -40,7 +41,6 @@ describe('world db', () => {
             .then(() => request.get('/cities'))
             .then(res => {
                 const saved = res.body.sort((a, b) => a._id > b._id ? 1 : -1 );
-                // cities = cities.sort(function (a, b) { return a.name - b.name; });
                 assert.deepEqual(saved, cities);
             });
     });
