@@ -55,4 +55,17 @@ describe('puppies', () => {
                 assert.equal(res.status, 404);
             });
     });
+    it('deletes a puppy with given id', () => {
+        const puppy = {name: 'tater', type: 'tot'};
+        let savedPuppy = null;
+        return request.post('/puppies')
+            .send(puppy)
+            .then(res => savedPuppy = res.body)
+            .then(() => {
+                return request.delete(`/puppies/${savedPuppy._id}`);
+            })
+            .then(res => {
+                assert.deepEqual(res.body, { removed: true });
+            });
+    });
 });
