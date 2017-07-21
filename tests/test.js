@@ -16,15 +16,23 @@ describe('dogs resource', () => {
 
     const request = chai.request(app);
 
+    let saved = '';
+
     it('saves', ()=> {
         const dog = { name: 'tiffany', breed:'labradoodle'};
         return request.post('/dogs') 
             .send(dog)
             .then(res => {
-                const saved = res.body;
+                saved = res.body;
                 assert.ok(saved._id);
                 assert.equal(saved.name, dog.name);
                 assert.equal(saved.breed, dog.breed);
-            });
+            });  
     });
+    it('gets by the id', () => {
+        return request.get(`/dogs/${saved._id}`)
+        .then (res => {
+            assert.equal(res.body._id, saved._id);
+        });
+    })
 });
