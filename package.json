@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "cowsay": "^1.1.9",
     "mongodb": "^2.2.30"
   },
   "devDependencies": {
