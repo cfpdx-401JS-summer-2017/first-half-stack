@@ -60,7 +60,7 @@ describe('world db', () => {
     });
 
     it('gets city by id and returns 404 not found', () => {
-        return request.get('/cities/597287cabf48c57689021abc') //must test 24 char
+        return request.get('/cities/bad3c9afe41a457ec1aef7cb') //must test 24 char
             .then(() => { throw new Error('Expected 404 error instead got 200'); },
                 err => assert.ok(err.response.notFound)
             );
@@ -73,11 +73,34 @@ describe('world db', () => {
             .then(saved => city = saved)
             .then(() => request.delete(`/cities/${city._id}`))
             .then(res => {
-                assert.equal(res.body.ok, 1); // not sure about this
+                // assert.equal(res.body.n, 1); // not sure about this
+                assert.deepEqual(res.body, { removed: true });
             });
     });
 
-    //TODO: PUT /<resource>/:id
+    //TODO: delete returns 404
+    it('deletes city by id and returns 404 not found', () => {
+        return request.delete('/cities/bad3c9afe41a457ec1aef7ca')
+            // .then(() => { throw new Error('Expected 404 error instead got 200'); },
+                // err => assert.ok(err.response.notFound)
+            // );
+            .then(res => {
+                assert.deepEqual(res.body, { removed: false });
+            })
+    });
+
     
+    it('updates a city by id', () => {
+        let city = { name: 'Honolulu', state: 'IH' };
+        let cityCorrection = { name: 'Honolulu', state: 'HI' };
+
+        return save(city)
+            .then(saved => city = saved)
+            .then(() => request.put(`/cities/${city._id}`).send(cityCorrection))
+            .then(res => {
+                assert.equal(res.body.nModified, 1); // not sure about this
+            });
+    });
+
 
 });
