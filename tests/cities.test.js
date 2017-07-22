@@ -61,12 +61,23 @@ describe('world db', () => {
 
     it('gets city by id and returns 404 not found', () => {
         return request.get('/cities/597287cabf48c57689021abc') //must test 24 char
-            .then(() => {throw new Error('Expected 404 error instead got 200');},
+            .then(() => { throw new Error('Expected 404 error instead got 200'); },
                 err => assert.ok(err.response.notFound)
             );
     });
 
-    //TODO: DELETE /<resource>/:id
+    it('deletes city by id', () => {
+        let city = { name: 'Atlanta', state: 'GA' };
+
+        return save(city)
+            .then(saved => city = saved)
+            .then(() => request.delete(`/cities/${city._id}`))
+            .then(res => {
+                assert.equal(res.body.ok, 1); // not sure about this
+            });
+    });
+
     //TODO: PUT /<resource>/:id
     
+
 });
