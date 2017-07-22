@@ -55,4 +55,11 @@ describe('dogs resource', () => {
                 assert.deepEqual(gotDog, dog3);
             });
     });
+
+    it('returns a 404 if faulty id', () => {
+        return request.get('/dogs/59711a9fe09b842aa8bca961')
+            .then( () => {throw new Error('Expected 404 error instead got 200');},
+                err => assert.ok(err.response.notFound)
+            );
+    });
 });
