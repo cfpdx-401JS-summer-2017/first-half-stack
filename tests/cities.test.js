@@ -32,10 +32,10 @@ describe('world database', () => {
     });
 
     describe('GET', () => {
+        //QUESTION: not sure how remove before test
+        before(() => connection.db.dropCollection('cities'));
+        
         it('gets all cities', () => {
-            //QUESTION: not sure how remove before test
-            connection.db.dropCollection('cities');
-
             let cities = [
                 { name: 'San Francisco', state: 'CA' },
                 { name: 'Seattle', state: 'WA' },
@@ -68,6 +68,33 @@ describe('world database', () => {
                     err => assert.ok(err.response.notFound)
                 );
         });
+
+        it('gets the cities for a state', () => {
+            const state = 'MI';
+            let cities = [
+                { name: 'Detroit', state: 'MI' },
+                { name: 'Ann Arbor', state: 'MI' },
+                { name: 'Grand Rapids', state: 'MI' },
+                { name: 'Flint', state: 'MI' },
+                { name: 'Kalamazoo', state: 'MI'}
+            ];
+            
+            return Promise.all(cities.map(save))
+                .then(saved => cities = saved)
+                .then(() => request.get(`/cities/?state=${state}`))
+                .then(res => {
+                    assert.deepEqual(res.body, cities);
+                });
+        });
+        
+        it('gets the cities for a state and returns 404 not found', () => {
+            const state = 'AL';
+
+            return request.get(`/cities/?state=${state}`)
+                .then(() => { throw new Error('Expected 404 error instead got 200'); },
+                    err => assert.ok(err.response.notFound)
+                );
+        });  
     });
 
     describe('DELETE', () => {
