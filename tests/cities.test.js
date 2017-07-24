@@ -8,8 +8,7 @@ const app = require('../lib/app');
 
 describe('world database', () => {
     before(() => connection.connect(url));
-    before(() => connection.db.dropDatabase());
-    // beforeEach(() => connection.db.dropCollection('cities'));
+    beforeEach(() => connection.db.dropDatabase());
 
     const request = chai.request(app);
 
@@ -20,7 +19,7 @@ describe('world database', () => {
     }
 
     describe('POST', () => {
-        it('saves a new city', () => {
+        it('saves a new city!!!', () => {
             const city = { name: 'Chicago', state: 'IL' };
             return save(city)
                 .then(saved => {
@@ -32,9 +31,6 @@ describe('world database', () => {
     });
 
     describe('GET', () => {
-        //QUESTION: not sure how remove before test
-        before(() => connection.db.dropCollection('cities'));
-        
         it('gets all cities', () => {
             let cities = [
                 { name: 'San Francisco', state: 'CA' },
@@ -63,7 +59,7 @@ describe('world database', () => {
         });
 
         it('gets city by id and returns 404 not found', () => {
-            return request.get('/cities/bad3c9afe41a457ec1aef7cb') //must test 24 char
+            return request.get('/cities/bad3c9afe41a457ec1aef7cb')
                 .then(() => { throw new Error('Expected 404 error instead got 200'); },
                     err => assert.ok(err.response.notFound)
                 );
@@ -83,7 +79,8 @@ describe('world database', () => {
                 .then(saved => cities = saved)
                 .then(() => request.get(`/cities/?state=${state}`))
                 .then(res => {
-                    assert.deepEqual(res.body, cities);
+                    const saved = res.body.sort((a, b) => a._id > b._id ? 1 : -1 );
+                    assert.deepEqual(saved, cities);
                 });
         });
         
