@@ -3,6 +3,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const assert = chai.assert;
+const mongodb = require('../lib/db');
 
 // To pass object ids to mongo:
 // const ObjectID = require('mongodb').ObjectID;
@@ -13,19 +14,13 @@ const assert = chai.assert;
 
 describe.skip('mongo tests', () => {
   const req = chai.request(app);
-
   // drop database, create new one
 
-  it('url is GET /resource', done => {
-    return req
-      .get('/people')
-      .query({
-        action : 'moving-up',
-        name : 'jefferson'
-      })
-      .then(res => {});
-  });
-  //  it('url is POST /people', done => {}), it('url is GET /people/:id', done => {}), it('url is DELETE /<people>/:id', done => {
-  //   // return { removed: true } or { removed: false }
-  // }), it('url is PUT /<people>/:id', done => {});
+  it('url is GET /people', () => {
+    return req.get('/people').then(res => {
+      // console.log(res);
+    });
+  }), it('url is POST /people', done => {}), it('url is GET /people/:id', done => {}), it('url is DELETE /<people>/:id', done => {
+    // return { removed: true } or { removed: false }
+  }), it('url is PUT /<people>/:id', done => {});
 });
