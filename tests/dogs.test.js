@@ -56,10 +56,19 @@ describe('dogs resource', () => {
             });
     });
 
-    it('returns a 404 if faulty id', () => {
+    it('returns a 404 if faulty id on get request', () => {
         return request.get('/dogs/59711a9fe09b842aa8bca961')
             .then( () => {throw new Error('Expected 404 error instead got 200');},
                 err => assert.ok(err.response.notFound)
             );
     });
+
+    it('deletes a dog by id', () => {
+        return request.delete(`/dogs/${dog2._id}`)
+            .then(res => {
+                const deletedDog = res.body;
+                assert.deepEqual(deletedDog, dog2);
+            });
+    });
+
 });
