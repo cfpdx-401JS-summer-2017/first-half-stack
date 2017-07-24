@@ -1,0 +1,31 @@
+{
+  "name": "first-half-stack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "start": "node server.js",
+    "test:watch": "npm test -- -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinytort/first-half-stack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tinytort/first-half-stack/issues"
+  },
+  "homepage": "https://github.com/tinytort/first-half-stack#readme",
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.2.0",
+    "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "cowsay": "^1.1.9",
+    "mongodb": "^2.2.30"
+  }
+}
