@@ -79,4 +79,13 @@ describe('dogs resource', () => {
             });
     });
 
+    it('updates info of a dog', () => {
+        const newData = {name:'louis', breed:'cavalier king charles spaniel'};
+        return request.put(`/dogs/${dog._id}`).send(newData)
+            .then(res => {
+                const data = res.body;
+                assert.equal(data.nModified, 1);
+            });
+    });
+
 });
