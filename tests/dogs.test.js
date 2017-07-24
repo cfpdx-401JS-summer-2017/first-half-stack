@@ -66,8 +66,16 @@ describe('dogs resource', () => {
     it('deletes a dog by id', () => {
         return request.delete(`/dogs/${dog2._id}`)
             .then(res => {
-                const deletedDog = res.body;
-                assert.deepEqual(deletedDog, dog2);
+                const confirmation = res.body;
+                assert.deepEqual(confirmation, {removed:true});
+            });
+    });
+
+    it('returns "false" if faulty id on delete request', () => {
+        return request.delete('/dogs/59711a9fe09b842aa8bca961')
+            .then( res => {
+                const confirmation = res.body;
+                assert.deepEqual(confirmation, {removed:false});
             });
     });
 
