@@ -18,7 +18,7 @@ describe('dogs resource', () => {
 
     let saved = '';
 
-    it('saves', () => {
+    it.only('saves', () => {
         const dog = { name: 'tiffany', breed: 'labradoodle' };
         return request.post('/dogs')
             .send(dog)
