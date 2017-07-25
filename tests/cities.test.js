@@ -84,7 +84,7 @@ describe('world database', () => {
                 });
         });
         
-        it.skip('gets the cities for a state and returns 404 not found', () => {
+        it('gets the cities for a state and returns 404 not found', () => {
             const state = 'AL';
 
             return request.get(`/cities/?state=${state}`)
