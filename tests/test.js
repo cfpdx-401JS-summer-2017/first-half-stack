@@ -18,7 +18,7 @@ describe('dogs resource', () => {
 
     let saved = '';
 
-    it.only('saves', () => {
+    it('saves', () => {
         const dog = { name: 'tiffany', breed: 'labradoodle' };
         return request.post('/dogs')
             .send(dog)
@@ -29,13 +29,13 @@ describe('dogs resource', () => {
                 assert.equal(saved.breed, dog.breed);
             });
     });
-    it.only('gets by the id', () => {
+    it('gets by the id', () => {
         return request.get(`/dogs/${saved._id}`)
             .then(res => {
                 assert.equal(res.body._id, saved._id);
             });
     });
-    it.only('gets a bad id', () => {
+    it('gets a bad id', () => {
         return request.get('/dogs/597281cc0769012310d72666')
             .then(() => {throw new Error('Expected 404 error instead got 200');},
                 err => assert.ok(err.response.notFound)
@@ -43,24 +43,16 @@ describe('dogs resource', () => {
             
 
     });
-    it.only('pulls the collection of dogs', () => {
+    it('pulls the collection of dogs', () => {
         return request.get('/dogs')
             .then(res => {
                 assert.equal(res.body[0].name, saved.name);
             });
     });
-    it.only('rewrites dog data by id', () => {
+    it('rewrites dog data by id', () => {
         const dog2 = { name: 'snoopy', breed: 'beagle' };
         return request.put(`/dogs/${saved._id}`)
             .send(dog2)
-            .then(res => {
-                assert.deepEqual(JSON.parse(res.text), { updated: true });
-            });
-    });
-    it('update dog data by id', () => {
-        const dogStatus = { status: 'asleep' };
-        return request.patch(`/dogs/${saved._id}`)
-            .send(dogStatus)
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), { updated: true });
             });
