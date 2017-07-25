@@ -7,13 +7,6 @@ const ObjectID = require('mongodb').ObjectID;
 const db = require('../lib/db');
 const url = 'mongodb://localhost:27017/halfStack';
 
-// To pass object ids to mongo:
-// const ObjectID = require('mongodb').ObjectID;
-// // in your code, assuming you have id with string id:
-// const objectId = new ObjectID(id);
-// in Robo 3T: ObjectId(id)
-// in node using mongodb driver: new ObjectID(id)
-
 // Database->Collection->Documents
 
 describe.skip('mongo tests', () => {
@@ -43,10 +36,7 @@ describe.skip('mongo tests', () => {
     }));
   }),
     it('url is GET /people', () => {
-      return req.get('/people')
-        .then(res => {
-          console.log(res);
-        });
+
     }), it('url is POST /people', () => {
 
     }), it('url is GET /people/:id', () => {
