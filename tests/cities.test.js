@@ -137,4 +137,18 @@ describe('world database', () => {
         });
     });
 
+    describe('POST child', () => {
+        it('adds attractions to a city', () => {
+            let city = { name: 'Portland', state: 'OR' };
+            let attractions = { attractions: ['Washington Park', 'International Rose Test Garden'] };
+
+            return save(city)
+                .then(saved => city = saved)
+                .then(() => request.post(`/cities/${city._id}/attractions`).send(attractions))
+                .then(res => {
+                    assert.ok(res.body);
+                });
+        });
+    });
+
 });
