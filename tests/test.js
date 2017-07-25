@@ -40,6 +40,15 @@ describe('dogs resource', () => {
             });
 
     });
+    it('removes child items', () => {
+        const item = {toys: 'green ball'};
+        return request.delete(`/dogs/${saved._id}/toys`)
+            .send(item)
+            .then(res => {
+                saved = res.body;
+                assert.deepEqual(saved.toys, []);
+            });
+    });
     it('gets by the id', () => {
         return request.get(`/dogs/${saved._id}`)
             .then(res => {
