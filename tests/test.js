@@ -29,6 +29,26 @@ describe('dogs resource', () => {
                 assert.equal(saved.breed, dog.breed);
             });
     });
+    it('adds child array property to object', ()=>{
+        const item = {toys: 'green ball'};
+        return request.post(`/dogs/${saved._id}/toys`)
+            .send(item)
+            .then(res => {
+                saved = res.body;
+                assert.ok(saved.toys);
+                assert.equal(saved.toys, item.toys);
+            });
+
+    });
+    it('removes child items', () => {
+        const item = {toys: 'green ball'};
+        return request.delete(`/dogs/${saved._id}/toys`)
+            .send(item)
+            .then(res => {
+                saved = res.body;
+                assert.deepEqual(saved.toys, []);
+            });
+    });
     it('gets by the id', () => {
         return request.get(`/dogs/${saved._id}`)
             .then(res => {
@@ -47,18 +67,17 @@ describe('dogs resource', () => {
                 assert.equal(res.body[0].name, saved.name);
             });
     });
+    it('querys for a smaller set of dogs',()=>{
+        return request.get('/dogs?breed=labradoodle')
+            .then(res => {
+                assert.equal(res.body[0].breed, saved.breed);
+            });
+
+    });
     it('rewrites dog data by id', () => {
         const dog2 = { name: 'snoopy', breed: 'beagle' };
         return request.put(`/dogs/${saved._id}`)
             .send(dog2)
-            .then(res => {
-                assert.deepEqual(JSON.parse(res.text), { updated: true });
-            });
-    });
-    it('update dog data by id', () => {
-        const dogStatus = { status: 'asleep' };
-        return request.patch(`/dogs/${saved._id}`)
-            .send(dogStatus)
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), { updated: true });
             });
