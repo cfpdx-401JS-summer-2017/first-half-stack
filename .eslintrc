@@ -10,7 +10,14 @@
     "ecmaVersion": 6
   },
   "rules": {
-    "block-spacing": ["error", "always"],
+    "block-spacing": [
+      "error",
+      "always"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "always"
+    ],
     "brace-style": [
       "warn",
       "1tbs",
@@ -25,8 +32,14 @@
         "before": false
       }
     ],
-    "curly": ["warn", "multi"],
-    "indent": ["error", 2],
+    "curly": [
+      "warn",
+      "multi"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
     "key-spacing": [
       "error",
       {
@@ -35,14 +48,17 @@
         "mode": "strict"
       }
     ],
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
     "newline-per-chained-call": [
       "error",
       {
         "ignoreChainWithDepth": 2
       }
     ],
-    "no-console": "warn",
+    "no-console": "off",
     "no-multiple-empty-lines": [
       "error",
       {
@@ -57,8 +73,14 @@
       }
     ],
     "no-var": "warn",
-    "nonblock-statement-body-position": ["warn", "beside"],
-    "object-curly-newline": ["warn", "always"],
+    "nonblock-statement-body-position": [
+      "warn",
+      "beside"
+    ],
+    "object-curly-newline": [
+      "warn",
+      "always"
+    ],
     "padding-line-between-statements": [
       "error",
       {
@@ -98,10 +120,16 @@
         "enforceForRenamedProperties": false
       }
     ],
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
     "sort-keys": [
-      "warn",
+      "off",
       "asc",
       {
         "caseSensitive": false,
