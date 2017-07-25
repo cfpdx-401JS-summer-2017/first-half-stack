@@ -29,6 +29,17 @@ describe('dogs resource', () => {
                 assert.equal(saved.breed, dog.breed);
             });
     });
+    it('adds child array property to object', ()=>{
+        const item = {toys: 'green ball'};
+        return request.post(`/dogs/${saved._id}/toys`)
+            .send(item)
+            .then(res => {
+                saved = res.body;
+                assert.ok(saved.toys);
+                assert.equal(saved.toys, item.toys);
+            });
+
+    });
     it('gets by the id', () => {
         return request.get(`/dogs/${saved._id}`)
             .then(res => {
@@ -48,6 +59,13 @@ describe('dogs resource', () => {
             .then(res => {
                 assert.equal(res.body[0].name, saved.name);
             });
+    });
+    it('querys for a smaller set of dogs',()=>{
+        return request.get('/dogs?breed=labradoodle')
+            .then(res => {
+                assert.equal(res.body[0].breed, saved.breed);
+            });
+
     });
     it('rewrites dog data by id', () => {
         const dog2 = { name: 'snoopy', breed: 'beagle' };
