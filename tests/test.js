@@ -29,13 +29,13 @@ describe('dogs resource', () => {
                 assert.equal(saved.breed, dog.breed);
             });
     });
-    it('gets by the id', () => {
+    it.only('gets by the id', () => {
         return request.get(`/dogs/${saved._id}`)
             .then(res => {
                 assert.equal(res.body._id, saved._id);
             });
     });
-    it('gets a bad id', () => {
+    it.only('gets a bad id', () => {
         return request.get('/dogs/597281cc0769012310d72666')
             .then(() => {throw new Error('Expected 404 error instead got 200');},
                 err => assert.ok(err.response.notFound)
@@ -43,7 +43,7 @@ describe('dogs resource', () => {
             
 
     });
-    it('pulls the collection of dogs', () => {
+    it.only('pulls the collection of dogs', () => {
         return request.get('/dogs')
             .then(res => {
                 assert.equal(res.body[0].name, saved.name);
