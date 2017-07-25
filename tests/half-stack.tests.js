@@ -9,7 +9,7 @@ const url = 'mongodb://localhost:27017/halfStack';
 
 // Database->Collection->Documents
 
-describe.skip('mongo tests', () => {
+describe('mongo tests', () => {
   before(() => db.connect(url));
   beforeEach(() => {
     db.db.dropDatabase();
