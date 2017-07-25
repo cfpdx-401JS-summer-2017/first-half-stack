@@ -49,9 +49,9 @@ describe('dogs resource', () => {
                 assert.equal(res.body[0].name, saved.name);
             });
     });
-    it('rewrites dog data by id', () => {
+    it.only('rewrites dog data by id', () => {
         const dog2 = { name: 'snoopy', breed: 'beagle' };
-        return request.patch(`/dogs/${saved._id}`)
+        return request.put(`/dogs/${saved._id}`)
             .send(dog2)
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), { updated: true });
