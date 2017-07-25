@@ -32,8 +32,26 @@ describe('cheese resource', () => {
                 assert.equal(saved.name, cheese[0].name);
                 assert.equal(saved.origin, cheese[0].origin);
             });
-
     });
+
+    it('query: gets by name', () => {
+        return request.get('/cheeses?name=cheddar')
+            .then(res => {
+                let got = res.body[0];
+                assert.equal(got.name, 'cheddar');
+                assert.equal(got.origin, 'England');
+            });
+    });
+
+    it('query: gets by name and origin', () => {
+        return request.get('/cheeses?name=cheddar&origin=England')
+            .then(res => {
+                let got = res.body[0];
+                assert.equal(got.name, 'cheddar');
+                assert.equal(got.origin, 'England');
+            });
+    });
+
     it('gets all', () => {
         return request.get('/cheeses')
             .then(res => {
@@ -58,7 +76,7 @@ describe('cheese resource', () => {
     });
 
     it('returns code 404 if resource not found', () => {
-        return request.get('/cheeses/123456789012345678901234')
+        return request.get('/cheeses/123456789012345678012234')
             .then(
                 () => {
                     throw new Error('Expected 404 error instead got 200');
@@ -81,15 +99,32 @@ describe('cheese resource', () => {
                 const message = JSON.parse(res.text);
                 assert.deepEqual(message, { removed: false });
             });
-
     });
 
     it('update item by id', () => {
         return request.put(`/cheeses/${otherCheese._id}`)
+            .send({ name: 'camembert' })
             .then(() => request.get(`/cheeses/${otherCheese._id}`))
             .then(res => {
                 const got = res.body;
                 assert.equal(got.name, 'camembert');
+            });
+    });
+
+    it('updates cheese with child array property', () => {
+        return request.post(`/cheeses/${otherCheese._id}/wine-pairings`)
+            .send({ winePairing: 'chardonnay' })
+            .then(res => {
+                assert.ok(res.body.winePairings);
+                assert.equal(res.body.winePairings, 'chardonnay');
+            });
+    });
+
+    it('deletes property within child array', () => {
+        return request.delete(`/cheeses/${otherCheese._id}/wine-pairings`)
+            .send({ winePairing: 'chardonnay' })
+            .then(res => {
+                assert.deepEqual(res.body.winePairings, []);
             });
     });
 });
