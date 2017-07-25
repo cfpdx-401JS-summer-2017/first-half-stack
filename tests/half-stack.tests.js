@@ -5,11 +5,11 @@ chai.use(chaiHttp);
 const assert = chai.assert;
 const ObjectID = require('mongodb').ObjectID;
 const db = require('../lib/db');
-const url = 'mongodb://localhost:27017/halfStack';
+const url = 'mongodb://localhost:27017/halfStackWithExpress';
 
 // Database->Collection->Documents
 // new branch
-describe('mongo tests', () => {
+describe('mongo express tests', () => {
   before(() => db.connect(url));
   beforeEach(() => {
     db.db.dropDatabase();
@@ -35,11 +35,11 @@ describe('mongo tests', () => {
       .send(person)
       .then(res => {
         console.log('7');
-        return res.body;
+        return JSON.parse(res.text);
       });
   }
 
-  it('url is POST /people', () => {
+  it.only('url is POST /people', () => {
     console.log('1');
     const person = { feet: 'ginormous', name: 'chuck' };
     return save(person)
@@ -49,7 +49,7 @@ describe('mongo tests', () => {
         assert.ok(res._id);
       });
   });
-  it.only('url is GET /people', () => {
+  it('url is GET /people', () => {
     return Promise.all(seedPeople.map((person) => {
       return save(person)
     }))
