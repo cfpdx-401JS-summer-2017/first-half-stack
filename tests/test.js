@@ -40,8 +40,6 @@ describe('dogs resource', () => {
             .then(() => {throw new Error('Expected 404 error instead got 200');},
                 err => assert.ok(err.response.notFound)
             );
-            
-
     });
     it('pulls the collection of dogs', () => {
         return request.get('/dogs')
@@ -51,7 +49,7 @@ describe('dogs resource', () => {
     });
     it('rewrites dog data by id', () => {
         const dog2 = { name: 'snoopy', breed: 'beagle' };
-        return request.patch(`/dogs/${saved._id}`)
+        return request.put(`/dogs/${saved._id}`)
             .send(dog2)
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), { updated: true });
