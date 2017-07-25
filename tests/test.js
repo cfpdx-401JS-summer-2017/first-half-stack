@@ -60,8 +60,6 @@ describe('dogs resource', () => {
             .then(() => {throw new Error('Expected 404 error instead got 200');},
                 err => assert.ok(err.response.notFound)
             );
-            
-
     });
     it('pulls the collection of dogs', () => {
         return request.get('/dogs')
