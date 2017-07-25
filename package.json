@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cowsay": "^1.1.9",
+    "express": "^4.15.3",
     "mongodb": "^2.2.30"
   },
   "devDependencies": {
@@ -14,7 +16,7 @@
   },
   "scripts": {
     "test": "mocha tests",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",

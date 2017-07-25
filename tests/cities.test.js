@@ -34,7 +34,7 @@ describe('world database', () => {
         it('gets all cities', () => {
             let cities = [
                 { name: 'San Francisco', state: 'CA' },
-                { name: 'Seattle', state: 'WA' },
+                { name: 'Olympia', state: 'WA' },
                 { name: 'Phoenix', state: 'AZ' }
             ];
             
@@ -133,6 +133,39 @@ describe('world database', () => {
             return request.put('/cities/bad3dc4ad8313582364cdd21').send(cityCorrection)
                 .then(res => {
                     assert.deepEqual(res.body, { updated: false });
+                });
+        });
+    });
+
+    describe('POST child', () => {
+        it('adds attractions to a city', () => {
+            let city = { name: 'Portland', state: 'OR' };
+            let newAttractions = { attractions: ['Washington Park', 'International Rose Test Garden'] };
+
+            return save(city)
+                .then(saved => city = saved)
+                .then(() => request.post(`/cities/${city._id}/attractions`).send(newAttractions))
+                .then(res => {
+                    assert.deepEqual(res.body.attractions, newAttractions.attractions);
+                });
+        });
+    });
+
+    describe('DELETE child', () => {
+        it('removes attractions from a city', () => {
+            let city = {
+                name: 'Seattle',
+                state: 'WA',
+                attractions: ['Pike Place Market', 'Space Needle', 'Gum Wall']
+            };
+
+            let kill = { attractions: 'Space Needle' };
+
+            return save(city)
+                .then(saved => city = saved)
+                .then(() => request.delete(`/cities/${city._id}/attractions`).send(kill))
+                .then(res => {
+                    assert.deepEqual(res.body.attractions, ['Pike Place Market', 'Gum Wall']);
                 });
         });
     });
