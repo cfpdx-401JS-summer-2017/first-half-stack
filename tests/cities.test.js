@@ -34,7 +34,7 @@ describe('world database', () => {
         it('gets all cities', () => {
             let cities = [
                 { name: 'San Francisco', state: 'CA' },
-                { name: 'Seattle', state: 'WA' },
+                { name: 'Olympia', state: 'WA' },
                 { name: 'Phoenix', state: 'AZ' }
             ];
             
@@ -84,7 +84,7 @@ describe('world database', () => {
                 });
         });
         
-        it('gets the cities for a state and returns 404 not found', () => {
+        it.skip('gets the cities for a state and returns 404 not found', () => {
             const state = 'AL';
 
             return request.get(`/cities/?state=${state}`)
@@ -140,13 +140,32 @@ describe('world database', () => {
     describe('POST child', () => {
         it('adds attractions to a city', () => {
             let city = { name: 'Portland', state: 'OR' };
-            let attractions = { attractions: ['Washington Park', 'International Rose Test Garden'] };
+            let newAttractions = { attractions: ['Washington Park', 'International Rose Test Garden'] };
 
             return save(city)
                 .then(saved => city = saved)
-                .then(() => request.post(`/cities/${city._id}/attractions`).send(attractions))
+                .then(() => request.post(`/cities/${city._id}/attractions`).send(newAttractions))
                 .then(res => {
-                    assert.ok(res.body);
+                    assert.deepEqual(res.body.attractions, newAttractions.attractions);
+                });
+        });
+    });
+
+    describe('DELETE child', () => {
+        it('removes attractions from a city', () => {
+            let city = {
+                name: 'Seattle',
+                state: 'WA',
+                attractions: ['Pike Place Market', 'Space Needle', 'Gum Wall']
+            };
+
+            let kill = { attractions: 'Space Needle' };
+
+            return save(city)
+                .then(saved => city = saved)
+                .then(() => request.delete(`/cities/${city._id}/attractions`).send(kill))
+                .then(res => {
+                    assert.deepEqual(res.body.attractions, ['Pike Place Market', 'Gum Wall']);
                 });
         });
     });
