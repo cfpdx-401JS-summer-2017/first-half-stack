@@ -28,6 +28,9 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
-    "mongodb": "^2.2.30"
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongodb": "^2.2.30",
+    "nodemon": "^1.11.0"
   }
 }
