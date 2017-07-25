@@ -3,6 +3,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const {assert} = chai;
 
+
 const connection = require('../lib/db');
 
 const url = 'mongodb://localhost:27017/puppies-test';
@@ -83,13 +84,46 @@ describe('puppies', () => {
             .send(puppy)
             .then(res => savedPuppy = res.body)
             .then( () => {
-                puppy.name = 'joffrey';
                 return request
-                    .put(`/puppies/${savedPuppy._id}`)
-                    .send( puppy );
+                    .post(`/puppies/${savedPuppy._id}/status`)
+                    .send({ status: 'good boi'});
             })
             .then(res => {
-                assert.deepEqual(res.body, { modified: true });
+                assert.equal(res.body.value.status, 'good boi' );
+            });
+    });
+
+    it('finds puppies specified by query', () =>{
+        return request.get('/puppies?name=cheddar')
+            .then( res => {
+                let gotPuppy = res.body[0];
+                assert.equal(gotPuppy.name, 'cheddar');
+            });
+    });
+    
+    it('finds puppies by another query', () => {
+        return request.get('/puppies?type=chihuahua')
+            .then(res => {
+                let gotPuppy = res.body[0];
+                assert.equal(gotPuppy.type, 'chihuahua');
+            });
+    });
+
+    it('saves favorite snacks to a given puppy', () => {
+        return request.get('/puppies?name=cheddar')
+            .then(res => {
+                return request.post(`/puppies/${res.body[0]._id}/snacks`)
+                    .send({snacks: ['bully sticks', 'meatloaf', 'cheezburgur']})
+                    .then(res => assert.deepEqual(res.body.snacks, ['bully sticks', 'meatloaf', 'cheezburgur']));
+            });
+    });
+
+    it('deletes a favorite snack from a given puppies snack list', () => {
+        return request.get('/puppies?name=cheddar')
+            .then(res => {
+                return request.delete(`/puppies/${res.body[0]._id}/snacks`)
+                    .send({snacks: ['bully sticks']})
+                    .then(res => assert.deepEqual(res.body.snacks, ['meatloaf', 'cheezburgur']));
             });
     });
 });
