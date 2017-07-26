@@ -24,6 +24,9 @@
     "mongodb": "^2.2.30"
   },
   "dependencies": {
-    "cowsay": "^1.1.9"
+    "body-parser": "^1.17.2",
+    "cowsay": "^1.1.9",
+    "express": "^4.15.3",
+    "superagent": "^3.5.2"
   }
 }

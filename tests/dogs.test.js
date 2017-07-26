@@ -17,7 +17,10 @@ describe('dogs resource', () => {
     function saveDog(dog) {
         return request.post('/dogs')
             .send(dog)
-            .then(res => res.body);
+            .then(res => {
+                console.log(res);
+                return res.body;
+            });
     }
 
     let dog = {name:'steve', breed:'yellow lab'};
@@ -25,8 +28,9 @@ describe('dogs resource', () => {
     let dog3 = {name:'kasha', breed:'border collie'};
 
     it('saves', () => {
-        return saveDog(dog)
+        saveDog(dog)
             .then(saved => {
+                console.log(saved);
                 assert.ok(saved._id);
                 assert.equal(saved.name, dog.name);
                 assert.equal(saved.breed, dog.breed);
@@ -36,7 +40,7 @@ describe('dogs resource', () => {
     });
 
     it('gets all saved objects', () => {
-        return saveDog(dog2)
+        saveDog(dog2)
             .then(savedDog => dog2 = savedDog)
             .then(() => request.get('/dogs'))
             .then(res => {
@@ -47,7 +51,7 @@ describe('dogs resource', () => {
     });
 
     it('gets a saved object by id', () => {
-        return saveDog(dog3)
+        saveDog(dog3)
             .then(savedDog => dog3 = savedDog)
             .then(() => request.get(`/dogs/${dog3._id}`))
             .then(res => {
@@ -56,7 +60,7 @@ describe('dogs resource', () => {
             });
     });
 
-    it('returns a 404 if faulty id on get request', () => {
+    it.only('returns a 404 if faulty id on get request', () => {
         return request.get('/dogs/59711a9fe09b842aa8bca961')
             .then( () => {throw new Error('Expected 404 error instead got 200');},
                 err => assert.ok(err.response.notFound)
