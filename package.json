@@ -24,7 +24,10 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cowsay": "^1.1.9",
-    "mongodb": "^2.2.30"
+    "express": "^4.15.3",
+    "mongodb": "^2.2.30",
+    "travis": "^0.1.1"
   }
 }
