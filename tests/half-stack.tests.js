@@ -16,7 +16,7 @@ describe('mongo express tests', () => {
   });
 
   const req = chai.request(app);
-
+  req.
   const seedPeople = [
     { name: 'elizabeth', nose: 'tiny' },
     { name: 'joann', job: 'web dev' },
