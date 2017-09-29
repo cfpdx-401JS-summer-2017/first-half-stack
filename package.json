@@ -29,6 +29,7 @@
     "nodemon": "^1.11.0"
   },
   "dependencies": {
-    "mongodb": "^2.2.30"
+    "mongodb": "^2.2.30",
+    "superagent": "^3.6.1"
   }
 }
