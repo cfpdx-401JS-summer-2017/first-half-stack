@@ -24,15 +24,16 @@ describe('e2e person tests', () => {
     assert.equal(seededPeople.length, 6);
   });
   it('GET /people', async () => {
-    // send parameters home, likesRollerCoasters
     const foundPeople = await req.get('/people');
     assert.lengthOf(foundPeople.body, 5);
-    const query = 'likesRollerCoasters=true'
-    // const lRC = await req.get('/people').query({name:'paul'})
-    return req.get('/people').query({likesRollerCoasters:true})
-    .then(results => console.log(47, results.body))
-
-    // console.log(333, lRC)
+    const lrc = await req.get('/people').query({
+      likesRollerCoasters: true
+    })
+    assert.equal(lrc.body.length, 4)
+    const homePortland = await req.get('/people').query({
+      home: 'portland'
+    })
+    assert.equal(homePortland.body.length, 1)
   }),
   it('GET /people/:id', async () => {
     const id = seededPeople[0]._id;
@@ -53,6 +54,15 @@ describe('e2e person tests', () => {
       updatedUser.body.likesRollerCoasters,
       seededPeople[2].likesRollerCoasters
     );
+    const quirkId = seededPeople[3]._id;
+
+    const updatedQuirk = await req
+      .put(`/people/${quirkId}`)
+      .query({
+        annoying: 'humming'
+      });
+    assert.equal(updatedQuirk.body.code, 400)
+
   }),
   it('DELETE /people/:id', async () => {
     const getOne = await req.get('/people');
