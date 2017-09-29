@@ -1,12 +1,9 @@
-const http = require('http');
+/* eslint no-console: "off" */
 const app = require('./lib/app');
-const db = require('./lib/db');
-
-const url = 'mongodb://localhost:27017/halfStack';
-db.connect(url);
-
+const http = require('http');
+const port = process.env.PORT || 3001;
 const server = http.createServer(app);
-const port = 3000;
+
 server.listen(port, () => {
-  console.log('server running on', server.address().port);
+    console.log('server running on', server.address());
 });
