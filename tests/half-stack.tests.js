@@ -43,13 +43,12 @@ describe('mongo tests', () => {
   });
 
 
-
   it('url is POST /people', async () => {
-    const person = {
+    const chuck = {
       feet: 'ginormous',
       name: 'chuck'
     };
-    const savedPerson = await req.post('/people').send(person)
+    const savedPerson = await req.post('/people').send(chuck)
     assert.equal('chuck', savedPerson.body.name);
     assert.ok(savedPerson.body._id);
   });
@@ -57,17 +56,21 @@ describe('mongo tests', () => {
     const getPeople = await req.get('/people')
     assert.equal(getPeople.body.length, 6);
   });
-
   it('url is GET /people/:id', async () => {
-
     const getPeople = await req.get('/people')
-    console.log(88, getPeople.body[0]._id)
     const id = getPeople.body[0]._id
-    // const getById = await req.get(`/people/${id}`)
-    // console.log(67, getById.body)
-  }), it('url is DELETE /<people>/:id', () => {
-    // return { removed: true } or { removed: false }
-  }), it('url is PUT /<people>/:id', () => {
+    const getById = await req.get(`/people/${id}`)
+    assert.equal(getPeople.body[0].name, getById.body.name)
+  }), it('url is DELETE /<people>/:id', async () => {
+    const getPeople = await req.get('/people')
+    const id = getPeople.body[2]._id
+    const deleteById = await req.delete(`/people/${id}`)
+    assert.deepEqual(deleteById.body, { removed: true })
+  }), it('url is PUT /<people>/:id', async () => {
+    const getPeople = await req.get('/people')
+    const id = getPeople.body[1]._id
+    const putById = await req.put(`/people/${id}`)
+    assert.deepEqual(putById.body.lastErrorObject, { updatedExisting: true, n: 1 })
 
   });
 });
